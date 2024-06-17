@@ -1,12 +1,15 @@
 // 3 player chess board image
-const width = 8192;
+const width = 5550;
 // midpoint
 const center = width/2;
 // board colors
-const mainColor = "#004d00";
-const backgroundColor = "gray";
+const mainColor = "#024200";
+const backgroundColor = "white";
 
-const edgeLength = width/16;
+const base = 36; // irl length and width of image in inches
+const border = 3; // border width in inches surrounding board
+
+const edgeLength = width/((base*16*Math.cos(30*Math.PI/180))/(base-border*2));
 
 const chess3p = document.createElement('canvas');
 
@@ -46,17 +49,18 @@ emptyDiamond.height = diamondHeight;
 const fctx = filledDiamond.getContext('2d');
 const ectx = emptyDiamond.getContext('2d');
 
-const lineWidth = 10;
+const lineWidth = edgeLength/50;
+const  lineOffset = lineWidth/8;
 
 ctx.strokeStyle = mainColor;
 ctx.lineWidth = lineWidth;
 
 const drawOutlineSection = () => {
   ctx.beginPath();
-  ctx.moveTo(center + 4*xCalc(), center - diamondHeight - lineWidth/2);
-  ctx.lineTo(center + 4*xCalc() + 4*edgeLength, center - diamondHeight - lineWidth/2);
-  ctx.lineTo(4*edgeLength + center + lineWidth/2, center);
-  ctx.lineTo(center + 4*xCalc() + 4*edgeLength, center - diamondHeight - lineWidth/2);
+  ctx.moveTo(center + 4*xCalc() - lineWidth/6, center - diamondHeight - lineWidth/2 + lineOffset);
+  ctx.lineTo(center + 4*xCalc() + 4*edgeLength - lineOffset, center - diamondHeight - lineWidth/2 + lineOffset);
+  ctx.lineTo(4*edgeLength + center + lineWidth/2 - lineOffset, center);
+  ctx.lineTo(center + 4*xCalc() + 4*edgeLength - lineOffset, center - diamondHeight - lineWidth/2 + lineOffset);
   ctx.closePath();
   ctx.stroke();
 }
@@ -71,11 +75,20 @@ for (let i = 0; i < 4; i++) {
   }
 }
 
-const rotateAroundCenter = () => {
+const drawCoordinates = (text: string, xoffset: number, yoffset: number) => {
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = mainColor;
+  ctx.font = `bold ${edgeLength/3.5}px Roboto Slab`;
+  ctx.fillText(text, center - diamondHeight + edgeLength/2 + xoffset - (edgeLength/15), center + diamondWidth - yoffset);
+}
+
+const rotateAroundCenter = (n: number = 3) => {
   ctx.translate(center, center);
-  ctx.rotate(Math.PI/3);
+  ctx.rotate(Math.PI/n);
   ctx.translate(-center, -center);
 }
+// place board
 for (let i = 0; i < 3; i++) {
   ctx.drawImage(filledDiamond, center, center - diamondHeight);
   drawOutlineSection();
@@ -84,5 +97,30 @@ for (let i = 0; i < 3; i++) {
   drawOutlineSection();
   rotateAroundCenter();
 }
+
+const coordData = [
+  '8,7,6,5,4,3,2,1',
+  'L,K,J,I,D,C,B,A',
+  '12,11,10,9,5,6,7,8',
+  'H,G,F,E,I,J,K,L',
+  '1,2,3,4,9,10,11,12',
+  'A,B,C,D,E,F,G,H',
+];
+// draw font
+rotateAroundCenter(6);
+for (let i = 0; i < 6; i++) {
+  coordData[i].split(',').forEach((char, j) => {
+    const k = j < 4 ? j : 7 - j;
+    if (!(i%2) && ( +char === 6 || +char === 9 )) {
+      drawCoordinates('_', j*yCalc(), k*xCalc());
+    }
+    drawCoordinates(char, j*yCalc(), k*xCalc());
+  });
+  rotateAroundCenter();
+}
+
+ctx.beginPath();
+ctx.arc(center, center, (width * (base - border * 1.1) / base) / 2, 0, 2*Math.PI);
+ctx.stroke();
 
 document.body.append(chess3p);
