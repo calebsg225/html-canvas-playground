@@ -1,0 +1,30 @@
+{
+  "name": "html-canvas-playground",
+  "version": "1.0.0",
+  "description": "place to experiment with html canvas",
+  "main": "index.html",
+  "scripts": {
+    "sass": "sass --watch src/styles/sass/index.scss:src/styles/index.css",
+    "build": "npx tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/calebsg225/html-canvas-playground.git"
+  },
+  "keywords": [
+    "HTML",
+    "Canvas",
+    "SCSS",
+    "TypeScript"
+  ],
+  "author": "calebsg225",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/calebsg225/html-canvas-playground/issues"
+  },
+  "homepage": "https://github.com/calebsg225/html-canvas-playground#readme",
+  "devDependencies": {
+    "tsx": "^4.15.5",
+    "typescript": "^5.4.5"
+  }
+}

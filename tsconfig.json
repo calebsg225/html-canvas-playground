@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "typeRoots": ["node_modules/@types"],
+    "resolveJsonModule": true,
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "target": "ES2022",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "src/scripts/js/",
+    "noEmit": false
+  },
+  "lib": ["es2021"]
+}
