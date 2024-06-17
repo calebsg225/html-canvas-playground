@@ -79,7 +79,7 @@ const drawCoordinates = (text: string, xoffset: number, yoffset: number) => {
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillStyle = mainColor;
-  ctx.font = `bold ${edgeLength/3.5}px Roboto Slab`;
+  ctx.font = `bold ${edgeLength/3.5}px ${'Roboto Slab'}`;
   ctx.fillText(text, center - diamondHeight + edgeLength/2 + xoffset - (edgeLength/15), center + diamondWidth - yoffset);
 }
 
@@ -112,7 +112,7 @@ for (let i = 0; i < 6; i++) {
   coordData[i].split(',').forEach((char, j) => {
     const k = j < 4 ? j : 7 - j;
     if (!(i%2) && ( +char === 6 || +char === 9 )) {
-      drawCoordinates('_', j*yCalc(), k*xCalc());
+      drawCoordinates('_', j*yCalc(), k*xCalc() - edgeLength/50);
     }
     drawCoordinates(char, j*yCalc(), k*xCalc());
   });
