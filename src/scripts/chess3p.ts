@@ -19,7 +19,7 @@ const borderWidth = 2.5; // border between outer vertices of board and edge of i
 
 const ringPosition = 1; // distance between edge of image and ring in irl inches
 
-const width = 512; // image resolution in pixels
+const width = 5550; // image resolution in pixels
 
 const ringThickness = width/600; // thickness of outer ring in pixels
 //      /\ /\ /\ /\ /\
