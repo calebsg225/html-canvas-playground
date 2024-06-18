@@ -19,9 +19,9 @@ const borderWidth = 2.5; // border between outer vertices of board and edge of i
 
 const ringPosition = 1; // distance between edge of image and ring in irl inches
 
-const ringThickness = 5; // thickness of outer ring in pixels
+const width = 512; // image resolution in pixels
 
-const width = 3200; // image resolution in pixels
+const ringThickness = width/600; // thickness of outer ring in pixels
 //      /\ /\ /\ /\ /\
 
 const center = width/2;
@@ -94,11 +94,11 @@ const drawTile = (ctx: CanvasRenderingContext2D, x: number, y: number, tileColor
 for (let i = 0; i < 4; i++) {
   for (let j = 0; j < 4; j++) {
     if ((i+j)%2) {
-      drawTile(ectx, (i*edgeLength) + (j*xCalc()), tileHeight - j*yCalc(), blackTileColor);
-      drawTile(fctx, (i*edgeLength) + (j*xCalc()), tileHeight - j*yCalc(), whiteTileColor);
-    } else {
       drawTile(ectx, (i*edgeLength) + (j*xCalc()), tileHeight - j*yCalc(), whiteTileColor);
       drawTile(fctx, (i*edgeLength) + (j*xCalc()), tileHeight - j*yCalc(), blackTileColor);
+    } else {
+      drawTile(ectx, (i*edgeLength) + (j*xCalc()), tileHeight - j*yCalc(), blackTileColor);
+      drawTile(fctx, (i*edgeLength) + (j*xCalc()), tileHeight - j*yCalc(), whiteTileColor);
     }
   }
 }
