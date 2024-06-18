@@ -2,16 +2,24 @@
 
 // simple image manipulation interface:
 //      \/ \/ \/ \/ \/
-const blackTileColor = "#024200"; // color of 'black' side tiles, coordinates, ring
-const whiteTileColor = "white";
 const backgroundColor = "#E6E6D9"; // color of 'white' side tiles, background
+
+const blackTileColor = "#024200"; // color of 'black' side tiles, coordinates, ring
+const whiteTileColor = backgroundColor;
 
 const ring = true; // add a ring if true
 const coordinates = true; // add coordinates if true
 
+const ringColor = blackTileColor;
+const coordinateColor = blackTileColor;
+const innerRingColor = backgroundColor; // color of background inside the ring
+
 const base = 36; // irl length and width of image in inches
 const borderWidth = 2.5; // border between outer vertices of board and edge of image square in irl inches
+
 const ringPosition = 1; // distance between edge of image and ring in irl inches
+
+const ringThickness = 5; // thickness of outer ring in pixels
 
 const width = 3200; // image resolution in pixels
 //      /\ /\ /\ /\ /\
@@ -28,6 +36,20 @@ const ctx = chess3p.getContext("2d");
 // create background
 ctx.fillStyle = backgroundColor;
 ctx.fillRect(0,0,width,width);
+
+// draw ring
+if (ring) {
+  ctx.save();
+  ctx.strokeStyle = ringColor;
+  ctx.fillStyle = innerRingColor;
+  ctx.lineWidth = ringThickness;
+  ctx.beginPath();
+  ctx.arc(center, center, (width * (base - ringPosition*2) / base) / 2, 0, 2*Math.PI);
+  ctx.closePath();
+  if (ctx.fillStyle !== ctx.strokeStyle) ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+}
 
 // helper functions for diagonal distances
 const xCalc = () => edgeLength / 2;
@@ -48,15 +70,16 @@ const tileHeight = 4 * yCalc();
 const { canvas: blackInnerTileStructure, context: fctx } = createStructureCanvas(tileWidth, tileHeight);
 const { canvas: whiteInnerTileStructure, context: ectx } = createStructureCanvas(tileWidth, tileHeight);
 
-const lineWidth = edgeLength/50; // width of board edge and ring
-const lineOffset = lineWidth/8; // offset edge from tiles to prevent any gap
+const outlineThickness = edgeLength/50; // width of board edge and ring
+const outlineOffset = outlineThickness/8; // offset edge from tiles to prevent any gap
 
 // set outline styles
 ctx.strokeStyle = blackTileColor;
-ctx.lineWidth = lineWidth;
+ctx.lineWidth = outlineThickness;
 
 // draw a single tile in a given position
-const drawTile = (ctx: CanvasRenderingContext2D, x: number, y: number, tileColor: string) => {
+const drawTile = (ctx: CanvasRenderingContext2D, x: number, y: number, tileColor: string): void => {
+  if (tileColor === backgroundColor) return;
   ctx.fillStyle = tileColor;
   ctx.beginPath();
   ctx.moveTo(x, y);
@@ -81,19 +104,19 @@ for (let i = 0; i < 4; i++) {
 }
 
 // rotate image to next position in order to place tile structures
-const rotateAroundCenter = (n: number = 3) => {
+const rotateAroundCenter = (n: number = 60): void => {
   ctx.translate(center, center);
-  ctx.rotate(Math.PI/n);
+  ctx.rotate(n*Math.PI/180);
   ctx.translate(-center, -center);
 }
 
 // draws board edges
-const drawOutlineSection = () => {
+const drawOutlineSection = (): void => {
   ctx.beginPath();
-  ctx.moveTo(center + 4*xCalc() - lineWidth/6, center - tileHeight - lineWidth/2 + lineOffset);
-  ctx.lineTo(center + 4*xCalc() + 4*edgeLength - lineOffset, center - tileHeight - lineWidth/2 + lineOffset);
-  ctx.lineTo(4*edgeLength + center + lineWidth/2 - lineOffset, center);
-  ctx.lineTo(center + 4*xCalc() + 4*edgeLength - lineOffset, center - tileHeight - lineWidth/2 + lineOffset);
+  ctx.moveTo(center + 4*xCalc() - outlineThickness/6, center - tileHeight - outlineThickness/2 + outlineOffset);
+  ctx.lineTo(center + 4*xCalc() + 4*edgeLength - outlineOffset, center - tileHeight - outlineThickness/2 + outlineOffset);
+  ctx.lineTo(4*edgeLength + center + outlineThickness/2 - outlineOffset, center);
+  ctx.lineTo(center + 4*xCalc() + 4*edgeLength - outlineOffset, center - tileHeight - outlineThickness/2 + outlineOffset);
   ctx.closePath();
   ctx.stroke();
 }
@@ -109,10 +132,11 @@ for (let i = 0; i < 3; i++) {
 }
 
 // places a single coordinate
-const drawCoordinate = (text: string, xoffset: number, yoffset: number) => {
+const drawCoordinate = (text: string, xoffset: number, yoffset: number): void => {
   ctx.fillText(text, center - tileHeight + edgeLength/2 + xoffset - (edgeLength/20), center + tileWidth - yoffset);
 }
 
+// coordinate data in clockwise order for three player chess
 const coordData = [
   '8,7,6,5,4,3,2,1',
   'L,K,J,I,D,C,B,A',
@@ -122,12 +146,13 @@ const coordData = [
   'A,B,C,D,E,F,G,H',
 ];
 
-rotateAroundCenter(6); // put image in correct orientation for placing coordinates
+rotateAroundCenter(210); // put image in correct orientation for placing coordinates
+
 // draw all coordinates
 if (coordinates) {
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillStyle = blackTileColor;
+  ctx.fillStyle = coordinateColor;
   ctx.font = `bold ${edgeLength/3.5}px ${'Roboto Slab'}`;
   for (let i = 0; i < 6; i++) {
     coordData[i].split(',').forEach((char, j) => {
@@ -139,13 +164,6 @@ if (coordinates) {
     });
     rotateAroundCenter();
   }
-}
-
-// draw ring
-if (ring) {
-  ctx.beginPath();
-  ctx.arc(center, center, (width * (base - ringPosition*2) / base) / 2, 0, 2*Math.PI);
-  ctx.stroke();
 }
 
 document.body.append(chess3p);
