@@ -1,3 +1,4 @@
 node_modules/
 src/scripts/js/
+src/styles/index.css.map
 build/
