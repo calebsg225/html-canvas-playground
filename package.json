@@ -5,7 +5,11 @@
   "main": "index.html",
   "scripts": {
     "sass": "sass --watch src/styles/sass/index.scss:src/styles/index.css",
-    "build": "npx tsc --watch"
+    "watch": "npx tsc --watch",
+    "compile": "npx tsc --build",
+    "init-build": "vite build",
+    "init-branch": "git add build -f",
+    "deploy": "git add build -f"
   },
   "repository": {
     "type": "git",
@@ -25,6 +29,7 @@
   "homepage": "https://github.com/calebsg225/html-canvas-playground#readme",
   "devDependencies": {
     "tsx": "^4.15.5",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vite": "^5.3.1"
   }
 }
