@@ -1,4 +1,10 @@
 node_modules/
+
+# remove tsc compiled files
 src/scripts/js/
+
+# hide css.map files
 src/styles/index.css.map
+
+# hide production build files
 build/
