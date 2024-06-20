@@ -5,7 +5,6 @@
   "main": "index.html",
   "scripts": {
     "sass": "sass --watch src/styles/sass/index.scss:src/styles/index.css",
-    "dev": "vite",
     "compile": "npx tsc --watch",
     "deploy": "npm run init-build && npm run init-branch",
     "init-build": "vite build",
@@ -30,8 +29,12 @@
   },
   "homepage": "https://github.com/calebsg225/html-canvas-playground#readme",
   "devDependencies": {
+    "@types/node": "^20.14.5",
     "tsx": "^4.15.5",
     "typescript": "^5.4.5",
     "vite": "^5.3.1"
+  },
+  "dependencies": {
+    "node": "^22.3.0"
   }
 }

@@ -1,7 +1,7 @@
 node_modules/
 
 # remove tsc compiled files
-src/scripts/js/
+src/scripts/js/*
 
 # hide css.map files
 src/styles/index.css.map

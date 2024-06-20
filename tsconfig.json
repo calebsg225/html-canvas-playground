@@ -2,10 +2,10 @@
   "compilerOptions": {
     "typeRoots": ["node_modules/@types"],
     "resolveJsonModule": true,
-    "module": "CommonJS",
+    "module": "Node16",
     "esModuleInterop": true,
     "target": "ES2022",
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "sourceMap": true,
     "outDir": "src/scripts/js/",
     "noEmit": false

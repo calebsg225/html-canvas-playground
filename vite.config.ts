@@ -1,9 +1,15 @@
-import { defineConfig } from 'vite';
-
-export default defineConfig({
-  base: 'html-canvas-playground',
-  root: '.',
+export default({
+  base: '/html-canvas-playground',
+  root: '',
   build: {
-    outDir: 'build'
+    outDir: 'build',
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+      },
+      watch: {
+        include: 'src/scripts/**'
+      }
+    },
   }
 });
