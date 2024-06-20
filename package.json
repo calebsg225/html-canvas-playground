@@ -8,7 +8,7 @@
     "watch": "npx tsc --watch",
     "deploy": "npm run init-build && npm run init-branch",
     "init-build": "vite build",
-    "preinit-branch": "git add build -f",
+    "preinit-branch": "git subtree add --prefix build origin gh-pages",
     "init-branch": "git commit -m 'updates'",
     "postinit-branch": "git subtree push --prefix build origin gh-pages"
   },
