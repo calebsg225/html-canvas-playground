@@ -19,7 +19,7 @@ const borderWidth = 2.5; // border between outer vertices of board and edge of i
 
 const ringPosition = 1; // distance between edge of image and ring in irl inches
 
-const width = 1550; // image resolution in pixels
+const width = 2550; // image resolution in pixels
 
 const ringThickness = width/600; // thickness of outer ring in pixels
 //      /\ /\ /\ /\ /\
@@ -27,7 +27,9 @@ const ringThickness = width/600; // thickness of outer ring in pixels
 const center = width/2;
 const edgeLength = width/((base*16*Math.cos(30*Math.PI/180))/(base-borderWidth*2));
 
-const chess3p = document.getElementById('canvas-3p-canvas') as HTMLCanvasElement;
+const chess3p = (document.getElementById('chess-3p-canvas') as HTMLCanvasElement);
+
+// const chess3p = document.createElement('canvas');
 // set canvas size
 chess3p.width = width;
 chess3p.height = width;
@@ -166,4 +168,4 @@ if (coordinates) {
   }
 }
 
-//document.body.append(chess3p);
+// document.body.append(chess3p);

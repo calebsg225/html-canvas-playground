@@ -8,3 +8,8 @@ src/styles/index.css.map
 
 # hide production build files
 build/
+dist/
+
+# env & config
+.env
+config.json

@@ -5,7 +5,8 @@
   "main": "index.html",
   "scripts": {
     "sass": "sass --watch src/styles/sass/index.scss:src/styles/index.css",
-    "compile": "npx tsc --watch",
+    "build": "npx tsc --watch",
+    "compile": "vite build --watch",
     "deploy": "npm run init-build && npm run init-branch",
     "init-build": "vite build",
     "preinit-branch": "git add build -f",
