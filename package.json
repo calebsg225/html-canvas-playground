@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "place to experiment with html canvas",
   "main": "index.html",
+  "type": "module",
   "scripts": {
     "sass": "sass --watch src/styles/sass/index.scss:src/styles/index.css",
     "watch": "npx tsc --watch",

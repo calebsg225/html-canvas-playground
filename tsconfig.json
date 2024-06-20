@@ -4,14 +4,13 @@
     "resolveJsonModule": true,
     "module": "ES6",
     "esModuleInterop": true,
-    "target": "ES2022",
+    "target": "ES6",
     "moduleResolution": "Node",
     "sourceMap": true,
-    "outDir": "./src/scripts/js/",
-    "noEmit": false
+    "outDir": "src/scripts/js/"
   },
   "lib": ["es2021"],
   "include": [
-    "src/scripts/*"
+    "./src/scripts/**/*"
   ]
 }
