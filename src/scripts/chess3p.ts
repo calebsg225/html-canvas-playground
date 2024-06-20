@@ -1,5 +1,64 @@
 // 3 player chess board image
 
+class Chess3PLayer {
+  //   \/\/\/\/  3p chess config variables
+  backgroundColor: string;
+  blackTileColor: string;
+  whiteTileColor: string;
+  ring: boolean;
+  coordinates: boolean;
+  ringColor: string;
+  coordinateColor: string;
+  innerRingColor: string;
+  base: number;
+  borderWidth: number;
+  ringPosition: number;
+  width: number;
+  ringThickness: number;
+  //   /\/\/\/\  3p chess config variables
+
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  constructor(canvasID: string) {
+    this.backgroundColor = "#E6E6D9"; // color of 'white' side tiles, background
+
+    this.blackTileColor = "#024200"; // color of 'black' side tiles, coordinates, ring
+    this.whiteTileColor = backgroundColor;
+
+    this.ring = true; // add a ring if true
+    this.coordinates = true; // add coordinates if true
+
+    this.ringColor = blackTileColor;
+    this.coordinateColor = blackTileColor;
+    this.innerRingColor = backgroundColor; // color of background inside the ring
+
+    this.base = 36; // irl length and width of image in inches
+    this.borderWidth = 2.5; // border between outer vertices of board and edge of image square in irl inches
+
+    this.ringPosition = 1; // distance between edge of image and ring in irl inches
+
+    this.width = 5550; // image resolution in pixels
+
+    this.ringThickness = this.width/600; // thickness of outer ring in pixels
+
+    this.canvas = document.getElementById(canvasID) as HTMLCanvasElement;
+  }
+  
+  buildBoard = () => {
+    this.canvas.width = this.width;
+    this.canvas.height = this.width;
+    this.ctx = this.canvas.getContext('2d');
+  }
+
+  // helper functions for diagonal distances
+  private xCalc = () => edgeLength / 2;
+  private yCalc = () => edgeLength * Math.cos(30*Math.PI/180);
+
+  private drawRing = () => {}
+  private drawBackground = () => {}
+
+}
+
 // simple image manipulation interface:
 //      \/ \/ \/ \/ \/
 const backgroundColor = "#E6E6D9"; // color of 'white' side tiles, background
@@ -19,7 +78,7 @@ const borderWidth = 2.5; // border between outer vertices of board and edge of i
 
 const ringPosition = 1; // distance between edge of image and ring in irl inches
 
-const width = 3550; // image resolution in pixels
+const width = 5550; // image resolution in pixels
 
 const ringThickness = width/600; // thickness of outer ring in pixels
 //      /\ /\ /\ /\ /\

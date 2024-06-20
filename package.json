@@ -5,13 +5,12 @@
   "main": "index.html",
   "scripts": {
     "sass": "sass --watch src/styles/sass/index.scss:src/styles/index.css",
-    "build": "npx tsc --watch",
-    "compile": "vite build --watch",
+    "watch": "npx tsc --watch",
     "deploy": "npm run init-build && npm run init-branch",
     "init-build": "vite build",
     "preinit-branch": "git add build -f",
     "init-branch": "git commit -m 'updates'",
-    "postinit-branch": "git subtree push --prefix build origin gh-pages"
+    "postinit-branch": "git subtree push --prefix build origin gh-pages2"
   },
   "repository": {
     "type": "git",
