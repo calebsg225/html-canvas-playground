@@ -28,11 +28,12 @@ class Chess3PLayer {
 
       hasBackground: true,
       hasRing : true, // add a ring if true
+      hasInnerCircle: false, // has a circle inside the ring
       hasCoordinates : true, // add coordinates if true
 
       ringColor : "#024200",
       coordinateColor : "#024200",
-      circleInRingColor : "#E6E6D9", // color of background inside the ring
+      innerCircleColor : "#E6E6D9", // color of background inside the ring
 
       baseWidth : 36, // irl length and width of image in inches
       borderWidth : 2.5, // border between outer vertices of board and edge of image square in irl inches
@@ -68,10 +69,11 @@ class Chess3PLayer {
       whiteTileColor,
       hasBackground,
       hasRing,
+      hasInnerCircle,
       hasCoordinates,
       ringColor,
       coordinateColor,
-      circleInRingColor,
+      innerCircleColor,
       baseWidth,
       borderWidth,
       ringPosition,
@@ -90,7 +92,7 @@ class Chess3PLayer {
     
     if (hasBackground) this.drawBackground(backgroundColor, imageResolution);
 
-    if (hasRing) this.drawRing(ringColor, circleInRingColor, imageResolution, ringPosition, baseWidth);
+    if (hasRing) this.drawRing(ringColor, hasInnerCircle, innerCircleColor, imageResolution, ringPosition, baseWidth);
 
 
     const { canvas: blackInnerTileStructure, context: fctx } = this.createStructureCanvas(this.tileWidth, this.tileHeight);
@@ -163,20 +165,21 @@ class Chess3PLayer {
   }
 
   private drawRing = (
-    ringColor: string, 
-    circleInRingColor: string, 
+    ringColor: string,
+    hasInnerCircle: boolean,
+    innerCircleColor: string, 
     imageResolution: number, 
     ringPosition: number,
     baseWidth: number,
   ) => {
     this.ctx.save();
     this.ctx.strokeStyle = ringColor;
-    this.ctx.fillStyle = circleInRingColor;
+    this.ctx.fillStyle = innerCircleColor;
     this.ctx.lineWidth = imageResolution/600;
     this.ctx.beginPath();
     this.ctx.arc(this.center, this.center, (imageResolution * (baseWidth - ringPosition*2) / baseWidth) / 2, 0, 2*Math.PI);
     this.ctx.closePath();
-    if (this.ctx.fillStyle !== this.ctx.strokeStyle) this.ctx.fill();
+    if (hasInnerCircle) this.ctx.fill();
     this.ctx.stroke();
     this.ctx.restore();
   }

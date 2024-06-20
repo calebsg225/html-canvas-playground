@@ -4,10 +4,11 @@ type ChessVariables = {
   whiteTileColor: string;
   hasBackground: boolean;
   hasRing: boolean;
+  hasInnerCircle: boolean;
   hasCoordinates: boolean;
   ringColor: string;
   coordinateColor: string;
-  circleInRingColor: string;
+  innerCircleColor: string;
   baseWidth: number;
   borderWidth: number;
   ringPosition: number;
