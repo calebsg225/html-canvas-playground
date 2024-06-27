@@ -18,7 +18,7 @@ class Chess3PLayer {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
 
-  constructor(canvasId: string, destination: any) {
+  constructor(canvasId: string, destinationElement: any) {
 
     this.chess3pVariables = {
       backgroundColor : "#E6E6D9", // color of 'white' side tiles, background
@@ -55,7 +55,7 @@ class Chess3PLayer {
 
     this.canvas = document.createElement('canvas');
     this.canvas.id = canvasId;
-    destination.append(this.canvas);
+    destinationElement.append(this.canvas);
 
     this.ctx = this.canvas.getContext('2d');
     this.buildBoard();
@@ -90,10 +90,9 @@ class Chess3PLayer {
     // clear the canvas
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.width);
     
-    if (hasBackground) this.drawBackground(backgroundColor, imageResolution);
+    if (hasBackground) this.drawBackground(backgroundColor);
 
     if (hasRing) this.drawRing(ringColor, hasInnerCircle, innerCircleColor, imageResolution, ringPosition, baseWidth);
-
 
     const { canvas: blackInnerTileStructure, context: fctx } = this.createStructureCanvas(this.tileWidth, this.tileHeight);
     const { canvas: whiteInnerTileStructure, context: ectx } = this.createStructureCanvas(this.tileWidth, this.tileHeight);
@@ -183,9 +182,9 @@ class Chess3PLayer {
     this.ctx.stroke();
     this.ctx.restore();
   }
-  private drawBackground = (backgroundColor: string, imageResolution: number) => {
+  private drawBackground = (backgroundColor: string) => {
     this.ctx.fillStyle = backgroundColor;
-    this.ctx.fillRect(0,0,imageResolution,imageResolution);
+    this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
   }
 
   // rotate image to next position in order to place tile structures
