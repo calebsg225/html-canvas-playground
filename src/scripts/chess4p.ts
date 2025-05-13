@@ -106,6 +106,9 @@ class Chess4Player {
           }
         }
       }
+
+      // draw outline
+      this.drawOutline();
     }
 
     if (hasCoordinates) this.drawCoordinates(coordinateColor);
@@ -114,6 +117,33 @@ class Chess4Player {
   private drawBackground = (backgroundColor: string) => {
     this.ctx.fillStyle = backgroundColor;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
+  // draws outline of chess board
+  private drawOutline = () => {
+    const sl = this.edgeLength * 4 + this.outlineThickness / 2;
+    const ll = this.edgeLength * 7 + this.outlineThickness / 2;
+    const msl = this.center - sl; // minus small length
+    const psl = this.center + sl; // plus small length
+    const mll = this.center - ll; // minus large length
+    const pll = this.center + ll; // plus large length
+    this.ctx.strokeStyle = this.chess4pVariables.blackTileColor;
+    this.ctx.beginPath();
+    this.ctx.moveTo(msl, mll);
+    this.ctx.lineTo(psl, mll);
+    this.ctx.lineTo(psl, msl);
+    this.ctx.lineTo(pll, msl);
+    this.ctx.lineTo(pll, psl);
+    this.ctx.lineTo(psl, psl);
+    this.ctx.lineTo(psl, pll);
+    this.ctx.lineTo(msl, pll);
+    this.ctx.lineTo(msl, psl);
+    this.ctx.lineTo(mll, psl);
+    this.ctx.lineTo(mll, msl);
+    this.ctx.lineTo(msl, msl);
+    this.ctx.lineTo(msl, mll);
+    this.ctx.closePath();
+    this.ctx.stroke();
   }
 
   private drawTile = (x: number, y: number, tileColor: string, backgroundColor: string) => {
