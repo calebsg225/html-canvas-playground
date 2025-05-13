@@ -18,26 +18,26 @@ class Chess4Player {
 
   constructor(canvasId: string, destinationElement: any) {
     this.chess4pVariables = {
-      backgroundColor : "#E6E6D9", // color of 'white' side tiles, background
+      backgroundColor: "#E6E6D9", // color of 'white' side tiles, background
 
-      blackTileColor : "#024200", // color of 'black' side tiles, coordinates, ring
-      whiteTileColor : "#E6E6D9",
+      blackTileColor: "#024200", // color of 'black' side tiles, coordinates, ring
+      whiteTileColor: "#E6E6D9",
 
       hasBackground: true,
-      hasRing : false, // add a ring if true
+      hasRing: false, // add a ring if true
       hasInnerCircle: false, // has a circle inside the ring
-      hasCoordinates : true, // add coordinates if true
+      hasCoordinates: true, // add coordinates if true
 
-      ringColor : "#024200",
-      coordinateColor : "#024200",
-      innerCircleColor : "#E6E6D9", // color of background inside the ring
+      ringColor: "#024200",
+      coordinateColor: "#024200",
+      innerCircleColor: "#E6E6D9", // color of background inside the ring
 
-      baseWidth : 36, // irl length and width of image in inches
-      borderWidth : 2.5, // border between outer vertices of board and edge of image square in irl inches
+      baseWidth: 36, // irl length and width of image in inches
+      borderWidth: 2.5, // border between outer vertices of board and edge of image square in irl inches
 
-      ringPosition : 1, // distance between edge of image and ring in irl inches
+      ringPosition: 1, // distance between edge of image and ring in irl inches
 
-      imageResolution : 5550, // image resolution in pixels
+      imageResolution: 5550, // image resolution in pixels
     }
 
     this.coordinateData = [
@@ -55,47 +55,55 @@ class Chess4Player {
 
   // generate 4 player chess board
   private buildBoard = () => {
+    // man this is wild, can't believe I wrote this shit
     const {
       backgroundColor,
       blackTileColor,
       whiteTileColor,
       hasBackground,
-      hasRing,
-      hasInnerCircle,
       hasCoordinates,
-      ringColor,
       coordinateColor,
-      innerCircleColor,
       baseWidth,
       borderWidth,
-      ringPosition,
       imageResolution
     } = this.chess4pVariables;
     this.canvas.width = imageResolution;
     this.canvas.height = imageResolution;
 
-    this.center = imageResolution/2;
-    this.edgeLength = (baseWidth - borderWidth*2) / baseWidth * imageResolution / 14;
+    this.center = imageResolution / 2;
+    this.edgeLength = (baseWidth - borderWidth * 2) / baseWidth * imageResolution / 14;
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     if (hasBackground) this.drawBackground(backgroundColor);
 
-    this.outlineThickness = this.edgeLength/50;
-    this.outlineOffset = this.outlineThickness/8;
+    this.outlineThickness = this.edgeLength / 50;
+    this.outlineOffset = this.outlineThickness / 8;
 
     this.ctx.strokeStyle = blackTileColor;
     this.ctx.lineWidth = this.outlineThickness;
 
     //populate tiles
     for (let i = 0; i < 14; i++) {
-      for (let j = 0; j < 8; j++) {
-        const x = this.center - this.edgeLength*4 + this.edgeLength*j;
-        const y = this.center - this.edgeLength*7 + this.edgeLength*i;
-        if ((i+j)%2) {
-          this.drawTile(x, y, whiteTileColor, backgroundColor);
-        } else {
-          this.drawTile(x, y, blackTileColor, backgroundColor);
+      if (i <= 2 || i >= 11) {
+        for (let j = 0; j < 8; j++) {
+          const x = this.center - this.edgeLength * 4 + this.edgeLength * j;
+          const y = this.center - this.edgeLength * 7 + this.edgeLength * i;
+          if ((i + j) % 2) {
+            this.drawTile(x, y, blackTileColor, backgroundColor);
+          } else {
+            this.drawTile(x, y, whiteTileColor, backgroundColor);
+          }
+        }
+      } else {
+        for (let j = 0; j < 14; j++) {
+          const x = this.center - this.edgeLength * 7 + this.edgeLength * j;
+          const y = this.center - this.edgeLength * 7 + this.edgeLength * i;
+          if ((i + j) % 2) {
+            this.drawTile(x, y, whiteTileColor, backgroundColor);
+          } else {
+            this.drawTile(x, y, blackTileColor, backgroundColor);
+          }
         }
       }
     }
@@ -120,12 +128,12 @@ class Chess4Player {
     this.ctx.fill();
   }
 
-  private drawCoordinates = (coordinateColor: string) => {}
+  private drawCoordinates = (coordinateColor: string) => { }
 
   // update variable data, reset image
   changeChessVariable = (variable: keyof ChessVariables, newValue: string | number | boolean) => {
-    const varType = typeof(this.chess4pVariables[variable]);
-    if (typeof(newValue) === varType) {
+    const varType = typeof (this.chess4pVariables[variable]);
+    if (typeof (newValue) === varType) {
       (this.chess4pVariables[variable] as typeof varType) = newValue as typeof varType;
     }
     this.buildBoard();

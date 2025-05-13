@@ -1,3 +1,6 @@
+// what tf is this here for ??
+// this is a dumb design
+// looking back at old code is wild
 type ChessVariables = {
   backgroundColor: string;
   blackTileColor: string;
