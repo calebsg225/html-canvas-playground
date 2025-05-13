@@ -1,4 +1,4 @@
-export default({
+export default ({
   base: '/html-canvas-playground',
   root: '',
   build: {

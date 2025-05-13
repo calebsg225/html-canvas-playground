@@ -8,6 +8,7 @@
     "sass": "sass --watch src/styles/sass/index.scss:src/styles/index.css",
     "watch": "npx tsc --watch",
     "deploy": "npm run init-build && npm run init-branch",
+    "dev": "vite",
     "init-build": "vite build",
     "preinit-branch": "git add build -f",
     "init-branch": "git commit -m 'updates'",
@@ -33,7 +34,7 @@
     "@types/node": "^20.14.5",
     "tsx": "^4.15.5",
     "typescript": "^5.4.5",
-    "vite": "^5.3.1"
+    "vite": "^6.3.5"
   },
   "dependencies": {
     "node": "^22.3.0"
