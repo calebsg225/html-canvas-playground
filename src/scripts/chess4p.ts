@@ -100,10 +100,10 @@ class Chess4Player {
         }
       }
 
-      // draw outline
-      this.drawOutline();
-
     }
+
+    // draw outline
+    this.drawOutline();
 
     if (hasCoordinates) this.drawCoordinates(coordinateColor);
   };
