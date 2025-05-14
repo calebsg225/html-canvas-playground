@@ -5,8 +5,6 @@ import { ChessVariables } from "./types/types";
 class Chess4Player {
   private chess4pVariables: ChessVariables;
 
-  private coordinateData: string[];
-
   private center: number;
   private edgeLength: number;
 
@@ -39,11 +37,6 @@ class Chess4Player {
 
       imageResolution: 5550, // image resolution in pixels
     }
-
-    this.coordinateData = [
-      'A,B,C,D,E,F,G,H,I,K,L,M,N',
-      '1,2,3,4,5,6,7,8,9,10,11,12,13,14'
-    ];
 
     this.canvas = document.createElement('canvas');
     this.canvas.id = canvasId;
@@ -109,6 +102,7 @@ class Chess4Player {
 
       // draw outline
       this.drawOutline();
+
     }
 
     if (hasCoordinates) this.drawCoordinates(coordinateColor);
@@ -158,7 +152,50 @@ class Chess4Player {
     this.ctx.fill();
   }
 
-  private drawCoordinates = (coordinateColor: string) => { }
+  // draws a single coordinate
+  private drawCoord = (text: string, raised: boolean, xoffset: number): void => {
+    const x = this.center - this.edgeLength * 7 + this.edgeLength / 2 + this.edgeLength * xoffset;
+    const y = this.center + this.edgeLength * (raised ? 7 : 4) + this.edgeLength / 5 + (text === "_" ? this.edgeLength / 30 : 0);
+    this.ctx.fillText(text, x, y);
+  }
+
+  // draw all board coordinates
+  private drawCoordinates = (coordinateColor: string) => {
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "middle";
+    this.ctx.fillStyle = coordinateColor;
+    this.ctx.font = `bold ${this.edgeLength / 3.5}px ${'Roboto Slab'}`;
+    const lets = 'ABCDEFGHIJKLMN';
+    for (let i = 0; i < lets.length; i++) {
+      this.drawCoord(lets[i], i > 2 && i < 11, i);
+    }
+    this.rotateAroundCenter();
+    for (let i = 0; i < 14; i++) {
+      this.drawCoord(i + 1 + "", i > 2 && i < 11, 13 - i);
+      if (i + 1 == 6 || i + 1 == 9) {
+        this.drawCoord("_", i > 2 && i < 11, 13 - i);
+      }
+    }
+    this.rotateAroundCenter();
+    for (let i = 0; i < lets.length; i++) {
+      this.drawCoord(lets[i], i > 2 && i < 11, 13 - i);
+    }
+    this.rotateAroundCenter();
+    for (let i = 0; i < 14; i++) {
+      this.drawCoord(i + 1 + "", i > 2 && i < 11, i);
+      if (i + 1 == 6 || i + 1 == 9) {
+        this.drawCoord("_", i > 2 && i < 11, 13 - i);
+      }
+    }
+    this.rotateAroundCenter();
+  }
+
+  // rotate image around center by n degrees
+  private rotateAroundCenter = (n: number = 90): void => {
+    this.ctx.translate(this.center, this.center);
+    this.ctx.rotate(n * Math.PI / 180);
+    this.ctx.translate(-this.center, -this.center);
+  }
 
   // update variable data, reset image
   changeChessVariable = (variable: keyof ChessVariables, newValue: string | number | boolean) => {
