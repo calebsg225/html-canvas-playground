@@ -2,8 +2,18 @@
 - making things for random projects
 
 ## Table Of Contents
+- [2 Player Chess Board](#2-player-chess-board)
 - [3 Player Chess Board](#3-player-chess-board)
 - [4 Player Chess Board](#4-player-chess-board)
+
+### 2 player chess board
+
+
+Added a two player chess board for completion. I don't plan on getting this one printed on a mousepad like the other boards,
+many already exist. Maybe later.
+
+
+![sample two player chess board placeholder](src/images/chess2p_512x512_coords_offwhite.png "sample two player chess board")
 
 ### 3 player chess board
 
