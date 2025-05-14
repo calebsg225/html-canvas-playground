@@ -21,26 +21,26 @@ class Chess3PLayer {
   constructor(canvasId: string, destinationElement: any) {
 
     this.chess3pVariables = {
-      backgroundColor : "#E6E6D9", // color of 'white' side tiles, background
+      backgroundColor: "#E6E6D9", // color of 'white' side tiles, background
 
-      blackTileColor : "#024200", // color of 'black' side tiles, coordinates, ring
-      whiteTileColor : "#E6E6D9",
+      blackTileColor: "#024200", // color of 'black' side tiles, coordinates, ring
+      whiteTileColor: "#E6E6D9",
 
       hasBackground: true,
-      hasRing : true, // add a ring if true
+      hasRing: true, // add a ring if true
       hasInnerCircle: false, // has a circle inside the ring
-      hasCoordinates : true, // add coordinates if true
+      hasCoordinates: true, // add coordinates if true
 
-      ringColor : "#024200",
-      coordinateColor : "#024200",
-      innerCircleColor : "#E6E6D9", // color of background inside the ring
+      ringColor: "#024200",
+      coordinateColor: "#024200",
+      innerCircleColor: "#E6E6D9", // color of background inside the ring
 
-      baseWidth : 36, // irl length and width of image in inches
-      borderWidth : 2.5, // border between outer vertices of board and edge of image square in irl inches
+      baseWidth: 36, // irl length and width of image in inches
+      borderWidth: 2.5, // border between outer vertices of board and edge of image square in irl inches
 
-      ringPosition : 1, // distance between edge of image and ring in irl inches
+      ringPosition: 1, // distance between edge of image and ring in irl inches
 
-      imageResolution : 5550, // image resolution in pixels
+      imageResolution: 5550, // image resolution in pixels
     }
 
 
@@ -81,15 +81,15 @@ class Chess3PLayer {
     } = this.chess3pVariables;
     this.canvas.width = imageResolution;
     this.canvas.height = imageResolution;
-  
-    this.center = imageResolution/2;  
-    this.edgeLength = imageResolution/((baseWidth*16*Math.cos(30*Math.PI/180))/(baseWidth-borderWidth*2));
+
+    this.center = imageResolution / 2;
+    this.edgeLength = imageResolution / ((baseWidth * 16 * Math.cos(30 * Math.PI / 180)) / (baseWidth - borderWidth * 2));
     this.tileWidth = 4 * (this.edgeLength + this.xCalc());
     this.tileHeight = 4 * this.yCalc();
 
     // clear the canvas
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.width);
-    
+
     if (hasBackground) this.drawBackground(backgroundColor);
 
     if (hasRing) this.drawRing(ringColor, hasInnerCircle, innerCircleColor, imageResolution, ringPosition, baseWidth);
@@ -97,8 +97,8 @@ class Chess3PLayer {
     const { canvas: blackInnerTileStructure, context: fctx } = this.createStructureCanvas(this.tileWidth, this.tileHeight);
     const { canvas: whiteInnerTileStructure, context: ectx } = this.createStructureCanvas(this.tileWidth, this.tileHeight);
 
-    this.outlineThickness = this.edgeLength/50; // width of board edge and ring
-    this.outlineOffset = this.outlineThickness/8; // offset edge from tiles to prevent any gap
+    this.outlineThickness = this.edgeLength / 50; // width of board edge and ring
+    this.outlineOffset = this.outlineThickness / 8; // offset edge from tiles to prevent any gap
 
     // set outline styles
     this.ctx.strokeStyle = blackTileColor;
@@ -107,9 +107,9 @@ class Chess3PLayer {
     // populate tile structures (each is one sixth of the board)
     for (let i = 0; i < 4; i++) {
       for (let j = 0; j < 4; j++) {
-        const x = (i*this.edgeLength) + (j*this.xCalc());
-        const y = this.tileHeight - j*this.yCalc();
-        if ((i+j)%2) {
+        const x = (i * this.edgeLength) + (j * this.xCalc());
+        const y = this.tileHeight - j * this.yCalc();
+        if ((i + j) % 2) {
           this.drawTile(ectx, x, y, whiteTileColor, backgroundColor);
           this.drawTile(fctx, x, y, blackTileColor, backgroundColor);
         } else {
@@ -133,7 +133,7 @@ class Chess3PLayer {
 
   // helper functions for diagonal distances
   private xCalc = () => this.edgeLength / 2;
-  private yCalc = () => this.edgeLength * Math.cos(30*Math.PI/180);
+  private yCalc = () => this.edgeLength * Math.cos(30 * Math.PI / 180);
 
   // create canvas elements for tile structure
   private createStructureCanvas = (width: number, height: number): { canvas: HTMLCanvasElement, context: CanvasRenderingContext2D } => {
@@ -146,10 +146,10 @@ class Chess3PLayer {
 
   // draw a single tile in a given position
   private drawTile = (
-    ctx: CanvasRenderingContext2D, 
-    x: number, 
-    y: number, 
-    tileColor: string, 
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    tileColor: string,
     backgroundColor: string,
   ) => {
     if (tileColor === backgroundColor) return;
@@ -166,17 +166,17 @@ class Chess3PLayer {
   private drawRing = (
     ringColor: string,
     hasInnerCircle: boolean,
-    innerCircleColor: string, 
-    imageResolution: number, 
+    innerCircleColor: string,
+    imageResolution: number,
     ringPosition: number,
     baseWidth: number,
   ) => {
     this.ctx.save();
     this.ctx.strokeStyle = ringColor;
     this.ctx.fillStyle = innerCircleColor;
-    this.ctx.lineWidth = imageResolution/600;
+    this.ctx.lineWidth = imageResolution / 600;
     this.ctx.beginPath();
-    this.ctx.arc(this.center, this.center, (imageResolution * (baseWidth - ringPosition*2) / baseWidth) / 2, 0, 2*Math.PI);
+    this.ctx.arc(this.center, this.center, (imageResolution * (baseWidth - ringPosition * 2) / baseWidth) / 2, 0, 2 * Math.PI);
     this.ctx.closePath();
     if (hasInnerCircle) this.ctx.fill();
     this.ctx.stroke();
@@ -184,31 +184,31 @@ class Chess3PLayer {
   }
   private drawBackground = (backgroundColor: string) => {
     this.ctx.fillStyle = backgroundColor;
-    this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   // rotate image to next position in order to place tile structures
   private rotateAroundCenter = (n: number = 60): void => {
     this.ctx.translate(this.center, this.center);
-    this.ctx.rotate(n*Math.PI/180);
+    this.ctx.rotate(n * Math.PI / 180);
     this.ctx.translate(-this.center, -this.center);
   }
 
   // draws 1/6 of the board outline
   private drawOutlineSection = () => {
     this.ctx.beginPath();
-    this.ctx.moveTo(this.center + 4*this.xCalc() - this.outlineThickness/6, this.center - this.tileHeight - this.outlineThickness/2 + this.outlineOffset);
-    this.ctx.lineTo(this.center + 4*this.xCalc() + 4*this.edgeLength - this.outlineOffset, this.center - this.tileHeight - this.outlineThickness/2 + this.outlineOffset);
-    this.ctx.lineTo(4*this.edgeLength + this.center + this.outlineThickness/2 - this.outlineOffset, this.center);
-    this.ctx.lineTo(this.center + 4*this.xCalc() + 4*this.edgeLength - this.outlineOffset, this.center - this.tileHeight - this.outlineThickness/2 + this.outlineOffset);
+    this.ctx.moveTo(this.center + 4 * this.xCalc() - this.outlineThickness / 6, this.center - this.tileHeight - this.outlineThickness / 2 + this.outlineOffset);
+    this.ctx.lineTo(this.center + 4 * this.xCalc() + 4 * this.edgeLength - this.outlineOffset, this.center - this.tileHeight - this.outlineThickness / 2 + this.outlineOffset);
+    this.ctx.lineTo(4 * this.edgeLength + this.center + this.outlineThickness / 2 - this.outlineOffset, this.center);
+    this.ctx.lineTo(this.center + 4 * this.xCalc() + 4 * this.edgeLength - this.outlineOffset, this.center - this.tileHeight - this.outlineThickness / 2 + this.outlineOffset);
     this.ctx.closePath();
     this.ctx.stroke();
   }
 
   // update variable data, reset image
   changeChessVariable = (variable: keyof ChessVariables, newValue: string | number | boolean) => {
-    const varType = typeof(this.chess3pVariables[variable]);
-    if (typeof(newValue) === varType) {
+    const varType = typeof (this.chess3pVariables[variable]);
+    if (typeof (newValue) === varType) {
       (this.chess3pVariables[variable] as typeof varType) = newValue as typeof varType;
     }
     this.buildBoard();
@@ -216,7 +216,7 @@ class Chess3PLayer {
 
   // place a single coordinate
   private drawCoordinateCharacter = (text: string, xoffset: number, yoffset: number): void => {
-    this.ctx.fillText(text, this.center - this.tileHeight + this.edgeLength/2 + xoffset - (this.edgeLength/20), this.center + this.tileWidth - yoffset);
+    this.ctx.fillText(text, this.center - this.tileHeight + this.edgeLength / 2 + xoffset - (this.edgeLength / 20), this.center + this.tileWidth - yoffset);
   }
 
   private drawAllCoordinates = (coordinateColor: string): void => {
@@ -224,14 +224,14 @@ class Chess3PLayer {
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "middle";
     this.ctx.fillStyle = coordinateColor;
-    this.ctx.font = `bold ${this.edgeLength/3.5}px ${'Roboto Slab'}`;
+    this.ctx.font = `bold ${this.edgeLength / 3.5}px ${'Roboto Slab'}`;
     for (let i = 0; i < 6; i++) {
       this.coordinateData[i].split(',').forEach((char, j) => {
         const k = j < 4 ? j : 7 - j;
-        if (!(i%2) && ( +char === 6 || +char === 9 )) {
-          this.drawCoordinateCharacter('_', j*this.yCalc(), k*this.xCalc() - this.edgeLength/50);
+        if (!(i % 2) && (+char === 6 || +char === 9)) {
+          this.drawCoordinateCharacter('_', j * this.yCalc(), k * this.xCalc() - this.edgeLength / 50);
         }
-        this.drawCoordinateCharacter(char, j*this.yCalc(), k*this.xCalc());
+        this.drawCoordinateCharacter(char, j * this.yCalc(), k * this.xCalc());
       });
       this.rotateAroundCenter();
     }
